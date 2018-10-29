@@ -7,7 +7,7 @@ KUSANAGI Runs on Docker Ver. PRESSMAN
 1. git clone this.
 ```
 $ pwd
-/home/foobar
+/home/yosuke
 $ git clone https://github.com/pm-yosuke/pm-kusanagi-docker.git my_wp_project
 ```
 

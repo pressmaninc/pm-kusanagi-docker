@@ -17,13 +17,10 @@ services:
   pm-kusanagi-nginx:
     container_name: pm-kusanagi-nginx
     image: pmyosuke/pm-kusanagi-nginx
-    environment:
-      PROFILE: pm-kusanagi
-      FQDN: www.sample.jp
     volumes_from:
       - pm-kusanagi-data
     links:
-      - pm-kusanagi-php72:php
+      - pm-kusanagi-php7:php
     ports:
       - "2080:80"
       - "2443:443"
@@ -39,8 +36,8 @@ services:
     volumes_from:
       - pm-kusanagi-data
   
-  pm-kusanagi-php72:
-    container_name: pm-kusanagi-php72
+  pm-kusanagi-php7:
+    container_name: pm-kusanagi-php7
     image: pmyosuke/pm-kusanagi-php72
     links:
       - pm-kusanagi-mariadb:mysql
