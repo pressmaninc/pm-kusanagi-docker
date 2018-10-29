@@ -1,60 +1,49 @@
 version: '2'
 
 services:
-  kusanagi-data:
-    container_name: kusanagi-data
+  pm-kusanagi-data:
+    container_name: pm-kusanagi-data
     image: busybox
     restart: always
     stdin_open: true
     tty: true
     volumes:
-      - /var/lib/mysql
-      - /etc/nginx/conf.d
-      - /etc/httpd/conf.d
-      - /etc/kusanagi.d
-      - /home/kusanagi
+      - ./var/lib/mysql:/var/lib/mysql
+      - ./etc/nginx/conf.d:/etc/nginx/conf.d
+      - ./etc/php-fpm.d:/usr/local/etc/php-fpm.d
+      - ./kusanagi:/var/www/html/kusanagi
     command: /bin/sh
   
-  kusanagi-nginx:
-    container_name: kusanagi-nginx
-    image: primestrategy/kusanagi-nginx:1.10.0-1
+  pm-kusanagi-nginx:
+    container_name: pm-kusanagi-nginx
+    image: pmyosuke/pm-kusanagi-nginx
     environment:
-      PROFILE: kusanagi
-      FQDN: kusanagi.example.jp
-      WPLANG: ja
-      BCACHE: "off"
-      FCACHE: "off"
+      PROFILE: pm-kusanagi
+      FQDN: www.sample.jp
     volumes_from:
-      - kusanagi-data
+      - pm-kusanagi-data
     links:
-      - kusanagi-php7:php
+      - pm-kusanagi-php72:php
     ports:
-      - "80:80"
-      - "443:443"
+      - "2080:80"
+      - "2443:443"
   
-  kusanagi-mariadb:
-    container_name: kusanagi-mariadb
-    image: mariadb:10.0.24
+  pm-kusanagi-mariadb:
+    container_name: pm-kusanagi-mariadb
+    image: mariadb
     environment:
       MYSQL_ROOT_PASSWORD: my-secret-pw
-      MYSQL_USER:     user
+      MYSQL_USER: user
       MYSQL_PASSWORD: password
       MYSQL_DATABASE: wordpress
     volumes_from:
-      - kusanagi-data
+      - pm-kusanagi-data
   
-  kusanagi-php7:
-    container_name: kusanagi-php7
-    image: primestrategy/kusanagi-php7:7.0.6-1
+  pm-kusanagi-php72:
+    container_name: pm-kusanagi-php72
+    image: pmyosuke/pm-kusanagi-php72
     links:
-      - kusanagi-mariadb:mysql
+      - pm-kusanagi-mariadb:mysql
     volumes_from:
-      - kusanagi-data
+      - pm-kusanagi-data
 
-  kusanagi-php5:
-    container_name: kusanagi-php5
-    image: primestrategy/kusanagi-php5:5.6.20-1
-    links:
-      - kusanagi-mariadb:mysql
-    volumes_from:
-      - kusanagi-data
