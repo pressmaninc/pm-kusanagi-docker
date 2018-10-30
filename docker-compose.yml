@@ -22,8 +22,8 @@ services:
     links:
       - pm-kusanagi-php7:php
     ports:
-      - "2080:80"
-      - "2443:443"
+      - "80:80"
+      - "443:443"
   
   pm-kusanagi-mariadb:
     container_name: pm-kusanagi-mariadb
