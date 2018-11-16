@@ -16,7 +16,7 @@ services:
   
   pm-kusanagi-nginx:
     container_name: pm-kusanagi-nginx
-    image: pmyosuke/pm-kusanagi-nginx
+    image: pressmaninc/pm-kusanagi-nginx
     volumes_from:
       - pm-kusanagi-data
     links:
@@ -38,7 +38,7 @@ services:
   
   pm-kusanagi-php7:
     container_name: pm-kusanagi-php7
-    image: pmyosuke/pm-kusanagi-php72
+    image: pressmaninc/pm-kusanagi-php72
     links:
       - pm-kusanagi-mariadb:mysql
     volumes_from:
