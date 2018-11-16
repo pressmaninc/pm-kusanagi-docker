@@ -8,7 +8,7 @@ KUSANAGI Runs on Docker Ver. PRESSMAN
 ```
 $ pwd
 /home/yosuke
-$ git clone https://github.com/pm-yosuke/pm-kusanagi-docker.git my_wp_project
+$ git clone https://github.com/pressmaninc/pm-kusanagi-docker.git my_wp_project
 ```
 
 2. download and extract WordPress.
@@ -27,7 +27,7 @@ $ pwd
 /home/yosuke/my_wp_project/kusanagi
 $ mkdir DocumentRoot/wp-content/mu-plugins
 $ cd DocumentRoot/wp-content/mu-plugins/
-$ docker run --rm -v $(pwd):/mu-plugins pmyosuke/pm-kusanagi-plugin
+$ docker run --rm -v $(pwd):/mu-plugins pressmaninc/pm-kusanagi-plugin
 ```
 
 4. run docker-compose.
