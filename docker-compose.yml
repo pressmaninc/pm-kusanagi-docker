@@ -1,46 +1,34 @@
-version: '2'
+version: '3.7'
 
 services:
-  pm-kusanagi-data:
-    container_name: pm-kusanagi-data
-    image: busybox
-    restart: always
-    stdin_open: true
-    tty: true
+  pm.kusanagi.nginx:
+    container_name: pm.kusanagi.nginx
+    image: pressmaninc/pm-kusanagi-nginx:latest
     volumes:
-      - ./var/lib/mysql:/var/lib/mysql
       - ./etc/nginx/conf.d:/etc/nginx/conf.d
-      - ./etc/php-fpm.d:/usr/local/etc/php-fpm.d
       - ./kusanagi:/var/www/html/kusanagi
-    command: /bin/sh
-  
-  pm-kusanagi-nginx:
-    container_name: pm-kusanagi-nginx
-    image: pressmaninc/pm-kusanagi-nginx
-    volumes_from:
-      - pm-kusanagi-data
     links:
-      - pm-kusanagi-php7:php
+      - pm.kusanagi.php7:php
     ports:
       - "80:80"
       - "443:443"
-  
-  pm-kusanagi-mariadb:
-    container_name: pm-kusanagi-mariadb
-    image: mariadb
+    
+  pm.kusanagi.php7:
+    container_name: pm.kusanagi.php7
+    image: pressmaninc/pm-kusanagi-php72:latest
+    links:
+      - pm.kusanagi.mariadb:mysql
+    volumes:
+      - ./etc/php-fpm.d:/usr/local/etc/php-fpm.d
+      - ./kusanagi:/var/www/html/kusanagi
+
+  pm.kusanagi.mariadb:
+    container_name: pm.kusanagi.mariadb
+    image: mariadb:latest
     environment:
       MYSQL_ROOT_PASSWORD: my-secret-pw
       MYSQL_USER: user
       MYSQL_PASSWORD: password
       MYSQL_DATABASE: wordpress
-    volumes_from:
-      - pm-kusanagi-data
-  
-  pm-kusanagi-php7:
-    container_name: pm-kusanagi-php7
-    image: pressmaninc/pm-kusanagi-php72
-    links:
-      - pm-kusanagi-mariadb:mysql
-    volumes_from:
-      - pm-kusanagi-data
-
+    volumes:
+      - ./var/lib/mysql:/var/lib/mysql
