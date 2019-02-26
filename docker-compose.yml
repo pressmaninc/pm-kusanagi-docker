@@ -15,7 +15,7 @@ services:
     
   pm.kusanagi.php7:
     container_name: pm.kusanagi.php7
-    image: pressmaninc/pm-kusanagi-php72:latest
+    image: pressmaninc/pm-kusanagi-php73:latest
     links:
       - pm.kusanagi.mariadb:mysql
     volumes:
